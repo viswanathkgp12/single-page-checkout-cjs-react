@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.bddefb3c.chunk.css",
+    "main.js": "/static/js/main.2651980d.chunk.js",
+    "main.js.map": "/static/js/main.2651980d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.30efdbd8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.30efdbd8.js.map",
+    "static/css/2.8d8c78f5.chunk.css": "/static/css/2.8d8c78f5.chunk.css",
+    "static/js/2.13f6afd6.chunk.js": "/static/js/2.13f6afd6.chunk.js",
+    "static/js/2.13f6afd6.chunk.js.map": "/static/js/2.13f6afd6.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.80128051c7a5137b4c1bd9df146bae80.js": "/precache-manifest.80128051c7a5137b4c1bd9df146bae80.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.8d8c78f5.chunk.css.map": "/static/css/2.8d8c78f5.chunk.css.map",
+    "static/css/main.bddefb3c.chunk.css.map": "/static/css/main.bddefb3c.chunk.css.map",
+    "static/js/2.13f6afd6.chunk.js.LICENSE.txt": "/static/js/2.13f6afd6.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/static/media/outline-icons.ef60a4f6.woff",
+    "static/media/cartImg.png": "/static/media/cartImg.c0d2d480.png",
+    "static/media/checkout-complete-img.JPG": "/static/media/checkout-complete-img.476c85d6.JPG",
+    "static/media/logo.png": "/static/media/logo.28565e69.png",
+    "static/media/seities_apparel_logo_small.png": "/static/media/seities_apparel_logo_small.a7f496ab.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.30efdbd8.js",
+    "static/css/2.8d8c78f5.chunk.css",
+    "static/js/2.13f6afd6.chunk.js",
+    "static/css/main.bddefb3c.chunk.css",
+    "static/js/main.2651980d.chunk.js"
+  ]
+}
