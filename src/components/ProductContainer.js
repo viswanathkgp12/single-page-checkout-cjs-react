@@ -5,7 +5,7 @@ import ProductCard from '../components/ProductCard'
 
 const ProductContainer = (props) => {
 
-    const commerce = new Commerce(process.env.REACT_APP_PUBLICKEY_SANDBOX)
+    const commerce = new Commerce("pk_test_424561dc50e53e368fb3563d39a0622a953124acb7dca")
     
     const [products, setProducts] = useState([])
 
@@ -21,7 +21,7 @@ const ProductContainer = (props) => {
 
     return (
         <>
-            <Divider horizontal>Shop All Proudcts</Divider>
+            <Divider horizontal>Virtual Kiosk</Divider>
             <Grid stackable columns='equal' centered>
                 {/* <Image src={hero} fluid/> */}
                 {products.map(product => (

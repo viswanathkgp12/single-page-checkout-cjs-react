@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const CheckoutContainer = (props) => {
     // console.log(props, 'Checking prop being sent from Private Route!!!!!!')
 
-    const commerce = new Commerce(process.env.REACT_APP_PUBLICKEY_SANDBOX)
+    const commerce = new Commerce("pk_test_424561dc50e53e368fb3563d39a0622a953124acb7dca")
 
     const [liveObject, setLiveObject] = useState()
     const [tokenId, setTokenId] = useState()
@@ -152,17 +152,17 @@ const CheckoutContainer = (props) => {
                                 <CheckoutItems item={item}/>
                             </Container>
                         ))}
-                        <Divider horizontal>Shipping Options</Divider>
+                        {/* <Divider horizontal>Shipping Options</Divider> */}
 
-                        <Dropdown
+                        {/* <Dropdown
                             placeholder='Select Shipping Method'
                             fluid
                             selection
                             onChange={handleDropDownShipping}
                             options={shippingOptions}
-                        />
+                        /> */}
 
-                        {!shipOption && <p>Select Country for Shipping Options</p>} 
+                        {/* {!shipOption && <p>Select Country for Shipping Options</p>}  */}
                         <Divider horizontal>Discount Code</Divider>
 
                         <form className='discount-code' onSubmit={handleDiscountClick}>

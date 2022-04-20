@@ -11,12 +11,12 @@ const CartItems = (props) => {
 
     return (
         <>
-            <Item.Image size='tiny' src={props.item.media.source} />
+            <Item.Image size='tiny' src={"https://uploads.appetizeapp.com/product-images/thumb__1625848407.jpg"} />
             <Item.Content verticalAlign='middle'>
-                <Item.Header>{props.item.name}</Item.Header>
-                <Item.Meta>
+                <Item.Header>{"Cheese Cake"}</Item.Header>
+                {/* <Item.Meta>
                     <span>{props.item.variants[0].option_name}</span>
-                </Item.Meta>
+                </Item.Meta> */}
                 <div className='quanity-group'>
                     <Button
                         negative 
@@ -30,7 +30,7 @@ const CartItems = (props) => {
                     </Button>
                     <Input 
                         className='input-quanity'
-                        value={props.item.quantity} 
+                        value={1} 
                     />
                     <Button
                         positive 
@@ -44,7 +44,7 @@ const CartItems = (props) => {
                     </Button>
                 </div>
                 <Item.Extra className='item-total'>
-                    <Header floated='right'>${props.item.line_total.formatted_with_symbol}</Header>
+                    <Header floated='right'>${"4.29"}</Header>
                 </Item.Extra>
             </Item.Content>
         </>

@@ -7,20 +7,20 @@ const ProductCard = (props) => {
     const [sizes, setSizes] = useState([])
     const [variantInfo, setVariantInfo] = useState()
 
-    useEffect(() => {        
+    // useEffect(() => {        
         
-        let finalSizeArray = props.product.variants[0].options.map(option => {
-            let sizeInfo = {}
+    //     // let finalSizeArray = props.product.variants[0].options.map(option => {
+    //     //     let sizeInfo = {}
 
-            sizeInfo.key = option.name
-            sizeInfo.text = option.name
-            sizeInfo.value = option.id
+    //     //     sizeInfo.key = option.name
+    //     //     sizeInfo.text = option.name
+    //     //     sizeInfo.value = option.id
 
-            return sizeInfo
-        })
+    //     //     return sizeInfo
+    //     // })
 
-        setSizes(finalSizeArray)
-    }, [])
+    //     setSizes(finalSizeArray)
+    // }, [])
 
     const handleSize = (e, {value}) => {
         setVariantInfo({[props.product.variants[0].id]: value})
@@ -41,20 +41,11 @@ const ProductCard = (props) => {
 
     return (
         <Card>
-            <Image src={props.product.media.source} />
+            <Image src={"https://uploads.appetizeapp.com/product-images/thumb__1625848407.jpg"} />
             <Card.Content>
-                <Card.Header>{props.product.name}</Card.Header>
-                <Card.Meta>{props.product.price.formatted_with_symbol}</Card.Meta>
-                <Card.Description>{props.product.description.replace(/(<([^>]+)>)/ig,"")}</Card.Description>
-                <Dropdown
-                    className="sizes-drop"
-                    onChange={handleSize}
-                    value={sizes.text}
-                    fluid
-                    placeholder='Select Size'
-                    selection
-                    options={sizes}
-                />
+                <Card.Header>{"Cheese Cake"}</Card.Header>
+                <Card.Meta>{"$4.29"}</Card.Meta>
+                <Card.Description>{"Plain Cheese Cake"}</Card.Description>
                 <Button fluid className='add-button' onClick={handleButtonAddCart}>
                     Add to Cart
                     <Icon name='arrow right' />

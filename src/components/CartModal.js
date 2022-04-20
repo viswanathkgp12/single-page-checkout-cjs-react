@@ -57,14 +57,14 @@ const CartModal = (props) => {
             :
             (
                 <>
-                    <Modal.Header>Seities Apparel Cart</Modal.Header>
+                    <Modal.Header>Cart</Modal.Header>
                     <Modal.Content image>
-                        <Image wrapped size='huge' src={cartImg} />
+                        {/* <Image wrapped size='huge' src={cartImg} /> */}
                         <Modal.Description>
                             <Header>Your Cart is currently Empty</Header>
-                            <p>
+                            {/* <p>
                                 It would make you very happy if you added an item to the cart
-                            </p>
+                            </p> */}
                         </Modal.Description>
                     </Modal.Content>
                 </>

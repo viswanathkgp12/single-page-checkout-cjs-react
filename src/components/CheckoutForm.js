@@ -1,223 +1,428 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Form, Label } from 'semantic-ui-react';
-import Commerce from '@chec/commerce.js'
-import { useForm, Controller } from 'react-hook-form'
-import { axiosWithAuth } from '../utils/axiosWithAuth'
-import qs from 'qs'
+import { Form, Label } from "semantic-ui-react";
+import Commerce from "@chec/commerce.js";
+import { useForm, Controller } from "react-hook-form";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+import qs from "qs";
+import QrReader from "react-qr-scanner";
+// import { QrReader } from "react-qr-reader";
 
 // Import Selections
-import { monthOptions, yearOptions} from '../utils/cardOptions'
-import { stateOptions } from '../utils/stateOptions'
-import { canada } from '../utils/North America/canada'
-import { mexico } from '../utils/North America/mexico'
-import { countries } from '../utils/Countries'
+import { monthOptions, yearOptions } from "../utils/cardOptions";
+import { stateOptions } from "../utils/stateOptions";
+import { canada } from "../utils/North America/canada";
+import { mexico } from "../utils/North America/mexico";
+import { countries } from "../utils/Countries";
+import axios from "axios";
 
 const CheckoutForm = (props) => {
-    // console.log(props, 'inside checkout form!!')
+  // console.log(props, 'inside checkout form!!')
 
-    const commerce = new Commerce(process.env.REACT_APP_PUBLICKEY_SANDBOX)
-    const { register, handleSubmit, errors, control, reset } = useForm()
+  const commerce = new Commerce(
+    "pk_test_424561dc50e53e368fb3563d39a0622a953124acb7dca"
+  );
+  const { register, handleSubmit, errors, control, reset } = useForm();
 
-    let history = useHistory()
+  let history = useHistory();
 
-    const [sameBilling, setSameBilling] = useState(false)
-    const [processing, setProcessing] = useState(false)
-    const [lineItems, setLineItems] = useState()
-    const [shipCountry, setShipCountry] = useState()
-    const [billingShipCountry, setBillingShipCountry] = useState()
+  const [sameBilling, setSameBilling] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [lineItems, setLineItems] = useState();
+  const [shipCountry, setShipCountry] = useState();
+  const [billingShipCountry, setBillingShipCountry] = useState();
+  const [qr, setQr] = useState();
 
+  let a = "";
 
-    useEffect(() => {
+  const previewStyle = {
+    height: 240,
+    width: 320,
+  };
 
-        /* 
-            Takes Line Items from props and strutures the data 
-            Object added to state   
-        */
+  const handleScan = (data) => {
+    if (data && "text" in data) {
+      if (a != "") return;
 
-        let lineItems = {}
+      setTimeout(() => {
+        if (a != "") return;
+        console.log("", a);
+        a = data.text;
+        console.log(data.text);
+        setQr(data.text);
 
-        props.liveObject.line_items.forEach(item => {
+        const postData = {
+          amount: "1",
+          credentialInfo: {
+            credential: data.text,
+            pin: "string",
+            encoded: true,
+            encType: "string",
+          },
+          posInfo: {
+            venueId: 0,
+            userName: "string",
+            userId: 0,
+            vendorId: 0,
+            vendorName: "string",
+            vendorType: 0,
+            vendorRoleId: 0,
+          },
+          orderInfo: {
+            orderId: "string",
+            currency: "string",
+            total: "string",
+            subTotal: "string",
+            remaining: "4.29",
+            discount: "string",
+            tax: "string",
+            cart: [
+              {
+                id: 0,
+                sku: "string",
+                itemName: "string",
+                itemCost: "string",
+                discount: "string",
+                tax: "string",
+                quantity: "string",
+                type: "string",
+              },
+            ],
+            redemptions: [
+              {
+                redemptionId: 0,
+                redemptionName: "string",
+                redemptionValue: "string",
+                partnerId: "string",
+                transactionId: "string",
+              },
+            ],
+            payments: [
+              {
+                paymentType: 0,
+                subpaymentType: 0,
+                amount: "string",
+                cartItemIds: ["string"],
+                paymentData: "string",
+                credentialInfo: {
+                  credential: "string",
+                  pin: "string",
+                  encoded: true,
+                  encType: "string",
+                },
+              },
+            ],
+          },
+          isTip: false,
+          isOffline: false,
+          transactionId: "string",
+        };
 
-            lineItems = {
-                ...lineItems,
-                [item.id]: {
-                    quantity: item.quantity,
-                    variants: {
-                        [item.variants[0].variant_id]: item.variants[0].option_id
-                    }
-                }
+        const post2Data = {
+          orderInfo: {
+            orderId: "string",
+            currency: "string",
+            total: "string",
+            subTotal: "string",
+            remaining: "1.2",
+            discount: "string",
+            tax: "string",
+            cart: [
+              {
+                id: 0,
+                sku: "string",
+                itemName: "string",
+                itemCost: "string",
+                discount: "string",
+                tax: "string",
+                quantity: "string",
+                type: "string",
+              },
+            ],
+            redemptions: [
+              {
+                redemptionId: 0,
+                redemptionName: "string",
+                redemptionValue: "string",
+                partnerId: "string",
+                transactionId: "string",
+              },
+            ],
+            payments: [
+              {
+                paymentType: 0,
+                subpaymentType: 0,
+                amount: "string",
+                cartItemIds: ["string"],
+                paymentData: "string",
+                credentialInfo: {
+                  credential: "string",
+                  pin: "string",
+                  encoded: true,
+                  encType: "string",
+                },
+              },
+            ],
+          },
+          payments: [
+            {
+              balance: "0",
+              spent: "2.49",
+              externalId: data.text,
+              slipLines: [],
+              paymentData: "",
+            },
+          ],
+          posInfo: {
+            venueId: 0,
+            userName: "string",
+            userId: 0,
+            vendorId: 0,
+            vendorName: "string",
+            vendorType: 0,
+            vendorRoleId: 0,
+          },
+        };
+
+        axios
+          .post(
+            "https://thingproxy.freeboard.io/fetch/https://18.224.140.101/api/v1/ppi/process",
+            postData,
+            {
+              headers: {
+                Authorization:
+                  "Bearer wThSvKxulVdLQJhsAsFo4e-2EIy8Z9LskgmsAhsbdzc",
+                "Content-Type": "application/json",
+              },
             }
-        })
+          )
+          .then((res) => {
 
-        setLineItems(lineItems)
+            //   history.push(`/order-complete/${props.tokenId}/${res.id}`);
 
-    }, [])
+            axios.post(
+              "https://thingproxy.freeboard.io/fetch/https://flex-service-staging.qa.spoton.sh/api/v1/ppi/reportOrder",
+              post2Data,
+              {
+                headers: {
+                  Authorization:
+                    "Bearer wThSvKxulVdLQJhsAsFo4e-2EIy8Z9LskgmsAhsbdzc",
+                  "Content-Type": "application/json",
+                },
+              }
+            );
 
-    useEffect(() => {
-        /* *** Takes the Shipping Country and updates shipping Options *** */
-        props.getShippingOptions(shipCountry)
-    }, [shipCountry])
-
-    const getCountryInfoShipping = () => {
-
-        /* *** Gives user proper options based on Shipping Country *** */
-        
-        if (shipCountry === 'MX') {
-            return mexico
-        }
-
-        if (shipCountry === 'CA') {
-            return canada
-        }
-
-        if (shipCountry === 'US') {
-            return stateOptions
-        }
+            localStorage.removeItem('cart-id');
+            props.setReceipt(res);
+            window.alert("Payment successful!");
+            setProcessing(false);
+          })
+          .catch((err) => {
+            window.alert("Payment processing failed!");
+            setProcessing(false);
+          });
+      }, 1000);
     }
-    
-    const getCountryInfoBilling = () => {
+  };
 
-        /* *** Gives user proper options based on Shipping Country *** */
-        
-        if (billingShipCountry === 'MX') {
-            return mexico
-        }
+  const handleError = (err) => {
+    console.error(err);
+  };
 
-        if (billingShipCountry === 'CA') {
-            return canada
-        }
+  // useEffect(() => {
 
-        if (billingShipCountry === 'US') {
-            return stateOptions
-        }
+  //     /*
+  //         Takes Line Items from props and strutures the data
+  //         Object added to state
+  //     */
+
+  //     let lineItems = {}
+
+  //     props.liveObject.line_items.forEach(item => {
+
+  //         lineItems = {
+  //             ...lineItems,
+  //             [item.id]: {
+  //                 quantity: item.quantity,
+  //                 variants: {
+  //                     [item.variants[0].variant_id]: item.variants[0].option_id
+  //                 }
+  //             }
+  //         }
+  //     })
+
+  //     setLineItems(lineItems)
+
+  // }, [])
+
+  useEffect(() => {
+    /* *** Takes the Shipping Country and updates shipping Options *** */
+    props.getShippingOptions(shipCountry);
+  }, [shipCountry]);
+
+  const getCountryInfoShipping = () => {
+    /* *** Gives user proper options based on Shipping Country *** */
+
+    if (shipCountry === "MX") {
+      return mexico;
     }
 
-    const handleCheckBox = e => {  
-        /* *** Toggles Checkbox on/off *** */
-        setSameBilling(!sameBilling)
+    if (shipCountry === "CA") {
+      return canada;
     }
 
-    const onSubmit = (data) => {
+    if (shipCountry === "US") {
+      return stateOptions;
+    }
+  };
 
-        /* *** 
+  const getCountryInfoBilling = () => {
+    /* *** Gives user proper options based on Shipping Country *** */
+
+    if (billingShipCountry === "MX") {
+      return mexico;
+    }
+
+    if (billingShipCountry === "CA") {
+      return canada;
+    }
+
+    if (billingShipCountry === "US") {
+      return stateOptions;
+    }
+  };
+
+  const handleCheckBox = (e) => {
+    /* *** Toggles Checkbox on/off *** */
+    setSameBilling(!sameBilling);
+  };
+
+  const onSubmit = (data) => {
+    /* *** 
             Takes in all the data gathered from the Form
             Parses the data properly to match the shape for capture
         *** */
 
-        setProcessing(true)
+    setProcessing(true);
 
-        let final = {}
+    let final = {};
 
-        final.line_items = lineItems
+    final.line_items = lineItems;
 
-        final.fulfillment = {
-            shipping_method: props.shipOption
-        }
+    final.fulfillment = {
+      shipping_method: props.shipOption,
+    };
 
-        final.customer = {
-            firstname: data.firstname,
-            lastname: data.lastname,
-            email: data.email
-        }
+    final.customer = {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+    };
 
-        final.shipping = {
-            name: `${data.firstname} ${data.lastname}`,
-            street: data.street,
-            town_city: data.town_city,
-            county_state: data.county_state,
-            postal_zip_code: data.postal_zip_code,
-            country: data.country
-        }
+    final.shipping = {
+      name: `${data.firstname} ${data.lastname}`,
+      street: data.street,
+      town_city: data.town_city,
+      county_state: data.county_state,
+      postal_zip_code: data.postal_zip_code,
+      country: data.country,
+    };
 
-        if (!sameBilling) {
-            final.billing = {
-                name: data.billing_name,
-                street: data.billing_street,
-                town_city: data.billing_town_city,
-                county_state: data.billing_county_state,
-                postal_zip_code: data.billing_postal_zip_code,
-                country: data.billing_country
-            }
-        }
-
-        if (data.gateway === 'stripe') {
-
-            let stripInfo = {
-                name: `${data.firstname} ${data.lastname}`,
-                number: data.number,
-                exp_month: data.expiry_month,
-                exp_year: data.expiry_year,
-                cvc: data.cvc,
-                address_zip: data.postal_billing_zip_code
-            }
-
-            axiosWithAuth().post('/tokens', qs.stringify({card: stripInfo}))
-                .then(res => {
-                    // console.log(res, 'res from token call')
-                    final.payment = {
-                        gateway: data.gateway,
-                        card: {
-                            token: res.data.id
-                        }
-                    }
-
-                    if (props.shipOption) {
-                        commerce.checkout.capture(props.tokenId, final)
-                            .then(res => {
-                                    // console.log(res, 'res from CAPTURING CHECKOUT!!!')
-                                    props.setReceipt(res)
-                                    localStorage.removeItem('cart-id')
-                                    history.push(`/order-complete/${props.tokenId}/${res.id}`)
-                                    setProcessing(false)
-                            })
-                            .catch(err => {
-                                    window.alert(err.data.error.message)
-                                    setProcessing(false)
-                            })
-                    } else {
-                        window.alert("Please select a shipping method!")
-                        setProcessing(false)
-                    }
-                })
-                .catch(err => {
-                    console.log(err.data, 'error message')
-                })
-        } else {
-            final.payment = {
-                gateway: data.gateway,
-                card: {
-                    number: data.number,
-                    expiry_month: data.expiry_month,
-                    expiry_year: data.expiry_year,
-                    cvc: data.cvc,
-                    postal_zip_code: data.postal_billing_zip_code,
-                }
-            }
-
-            if (props.shipOption) {
-                commerce.checkout.capture(props.tokenId, final)
-                    .then(res => {
-                            // console.log(res, 'res from CAPTURING CHECKOUT!!!')
-                            props.setReceipt(res)
-                            localStorage.removeItem('cart-id')
-                            history.push(`/order-complete/${props.tokenId}/${res.id}`)
-                            setProcessing(false)
-                    })
-                    .catch(err => {
-                            window.alert(err.data.error.message)
-                            setProcessing(false)
-                    })
-            } else {
-                window.alert("Please select a shipping method!")
-                setProcessing(false)
-            }
-        }
+    if (!sameBilling) {
+      final.billing = {
+        name: data.billing_name,
+        street: data.billing_street,
+        town_city: data.billing_town_city,
+        county_state: data.billing_county_state,
+        postal_zip_code: data.billing_postal_zip_code,
+        country: data.billing_country,
+      };
     }
-        
-    return (
-        <Form className='checkout-form' onSubmit={handleSubmit(onSubmit)} loading={processing}>
-            <h1>Customer Info</h1>
+
+    if (data.gateway === "stripe") {
+      let stripInfo = {
+        name: `${data.firstname} ${data.lastname}`,
+        number: data.number,
+        exp_month: data.expiry_month,
+        exp_year: data.expiry_year,
+        cvc: data.cvc,
+        address_zip: data.postal_billing_zip_code,
+      };
+
+      axiosWithAuth()
+        .post("/tokens", qs.stringify({ card: stripInfo }))
+        .then((res) => {
+          // console.log(res, 'res from token call')
+          final.payment = {
+            gateway: data.gateway,
+            card: {
+              token: res.data.id,
+            },
+          };
+
+          if (props.shipOption) {
+            commerce.checkout
+              .capture(props.tokenId, final)
+              .then((res) => {
+                // console.log(res, 'res from CAPTURING CHECKOUT!!!')
+                props.setReceipt(res);
+                localStorage.removeItem("cart-id");
+                history.push(`/order-complete/${props.tokenId}/${res.id}`);
+                setProcessing(false);
+              })
+              .catch((err) => {
+                window.alert(err.data.error.message);
+                setProcessing(false);
+              });
+          } else {
+            window.alert("Please select a shipping method!");
+            setProcessing(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err.data, "error message");
+        });
+    } else {
+      final.payment = {
+        gateway: data.gateway,
+        card: {
+          number: data.number,
+          expiry_month: data.expiry_month,
+          expiry_year: data.expiry_year,
+          cvc: data.cvc,
+          postal_zip_code: data.postal_billing_zip_code,
+        },
+      };
+
+      console.log(final);
+
+      // if (props.shipOption) {
+      //     commerce.checkout.capture(props.tokenId, final)
+      //         .then(res => {
+      //                 // console.log(res, 'res from CAPTURING CHECKOUT!!!')
+      //                 props.setReceipt(res)
+      //                 localStorage.removeItem('cart-id')
+      //                 history.push(`/order-complete/${props.tokenId}/${res.id}`)
+      //                 setProcessing(false)
+      //         })
+      //         .catch(err => {
+      //                 window.alert(err.data.error.message)
+      //                 setProcessing(false)
+      //         })
+      // } else {
+      //     window.alert("Please select a shipping method!")
+      //     setProcessing(false)
+      // }
+    }
+  };
+
+  return (
+    <Form
+      className="checkout-form"
+      onSubmit={handleSubmit(onSubmit)}
+      loading={processing}
+    >
+      {/* <h1>Customer Info</h1>
             <Form.Group widths='equal'>
                 <Controller
                     id='customer' 
@@ -321,24 +526,24 @@ const CheckoutForm = (props) => {
                     }}
                     error={errors.postal_zip_code && errors.postal_zip_code.message} 
                 />
-            </Form.Group>
-            <h1>Payment Info</h1>
-            <Form.Group className='payment-radio'>
-                <input
-                    name='gateway' 
-                    type='radio'
-                    value='test_gateway'
-                    ref={register({ required: "Please select Payment Type" })}
-                    onChange={e => {
-                        reset({
-                            number: 4242424242424242,
-                            cvc: 123,
-                            postal_billing_zip_code: 90210
-                        })
-                    }}
-                />
-                <label htmlFor="test_gateway">Test Gateway</label>
-                <input
+            </Form.Group> */}
+      <h1>Payment Info</h1>
+      <Form.Group className="payment-radio">
+        <input
+          name="gateway"
+          type="radio"
+          value="test_gateway"
+          ref={register({ required: "Please select Payment Type" })}
+          onChange={(e) => {
+            reset({
+              number: 4242424242424242,
+              cvc: 123,
+              postal_billing_zip_code: 90210,
+            });
+          }}
+        />
+        <label htmlFor="test_gateway">  SpotOn Flex(SANDBOX)</label>
+        {/* <input
                     name='gateway' 
                     type='radio'
                     value='stripe'
@@ -350,20 +555,16 @@ const CheckoutForm = (props) => {
                             postal_billing_zip_code: ''
                         })
                     }}
-                />
-                <label htmlFor="stripe">Credit Card</label>
-            </Form.Group>
-            {errors.gateway && (
-                <Label 
-                    className='payment-type-error'
-                    basic   
-                    pointing  
-                >
-                    {errors.gateway.message}
-                </Label>
-            )}
-            <Form.Group>
-                <Controller
+                /> */}
+        {/* <label htmlFor="stripe">Credit Card</label> */}
+      </Form.Group>
+      {errors.gateway && (
+        <Label className="payment-type-error" basic pointing>
+          {errors.gateway.message}
+        </Label>
+      )}
+      <Form.Group>
+        {/* <Controller
                     name='number'
                     type='number' 
                     label='Credit Card Number' 
@@ -382,9 +583,9 @@ const CheckoutForm = (props) => {
                     control={control}
                     rules={{ required: "Please enter Billing zip" }}
                     error={errors.postal_billing_zip_code && errors.postal_billing_zip_code.message} 
-                />
-            </Form.Group>
-            <Form.Group>
+                /> */}
+      </Form.Group>
+      {/* <Form.Group>
                 <Controller 
                     width={3} 
                     name='expiry_month' 
@@ -501,12 +702,20 @@ const CheckoutForm = (props) => {
                         />
                     </Form.Group>
                 </>
-            )}
-            <Form.Button color='green' size='huge'>
-                Complete Checkout and Pay
-            </Form.Button>
-        </Form>
-    );
+            )} */}
+      <Form.Button color="green" size="huge">
+        Show QR to Pay
+      </Form.Button>
+      {processing && (
+        <QrReader
+          delay={10}
+          style={previewStyle}
+          onError={handleError}
+          onScan={handleScan}
+        />
+      )}
+    </Form>
+  );
 };
 
 export default CheckoutForm;

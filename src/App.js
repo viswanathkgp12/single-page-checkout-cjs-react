@@ -16,7 +16,7 @@ export const CartItemsContext = React.createContext()
 
 function App() {
 
-    const commerce = new Commerce(process.env.REACT_APP_PUBLICKEY_SANDBOX)
+    const commerce = new Commerce("pk_test_424561dc50e53e368fb3563d39a0622a953124acb7dca")
 
     const [cart, setCart] = useState()
     const [checkout, setCheckout] = useState(false)
@@ -63,15 +63,15 @@ function App() {
 
     const addToCart = (productId, variantInfo) => {
 
-        if(variantInfo) {
+        // if(variantInfo) {
             commerce.cart.add(productId, 1, variantInfo)
                 .then(res => {
                     // console.log(res, 'res from adding to CART!!')
                     setCart(res.cart)
                 })
-        } else {
-            window.alert('Please Select a Shirt Size')
-        }
+        // } else {
+        //     window.alert('Please Select a Shirt Size')
+        // }
     }
 
     const emptyCart = () => {

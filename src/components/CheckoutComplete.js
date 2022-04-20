@@ -16,7 +16,7 @@ const CheckoutComplete = (props) => {
             <Segment className='order-complete'>
                 <div>
                     <h1>Order Complete</h1>
-                    <Header>Thanks for shopping at Seities Apparel</Header>
+                    <Header>Thanks for shopping at SeaWorld!</Header>
                     <Link to='/'>Return to All Products</Link>
                 </div>
                 <Image src={img} size='large' />
